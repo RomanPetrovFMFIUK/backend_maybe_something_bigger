@@ -1,4 +1,4 @@
-from . import Base
+from backend.app.models import Base
 
 from typing import TYPE_CHECKING
 
@@ -8,7 +8,7 @@ from sqlalchemy.orm import (Mapped,
                             relationship)
 
 if TYPE_CHECKING:
-    from . import User, Catalogue
+    from backend.app.models import User, Catalogue
 
 class Product(Base):
     name: Mapped[str] = mapped_column(unique=True, nullable=False)

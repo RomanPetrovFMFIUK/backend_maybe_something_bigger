@@ -7,8 +7,8 @@
 
 from aiogram import Dispatcher, Bot
 
-from tg_app.handlers import router
-from config import TOKEN
+from backend.app.bot.tg_app.handlers import router
+from backend.app.bot.config import TOKEN
 
 import logging
 import asyncio

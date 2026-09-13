@@ -1,36 +1,32 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.app.data_base import get_db
 from backend.app.schemas import ProductCreate, ProductResponse
 from backend.app.services import ProductService
-from backend.dependencies import get_current_auth_user
+from backend.app.dependencies import get_current_auth_user, get_uow
+from backend.app.repositories.unit_of_work import UnitOfWork
 
 router = APIRouter(prefix='/products', tags=['Products'])
 
+product_service = ProductService()
 
 @router.get('/', response_model=list[ProductResponse])
-async def get_products(db: AsyncSession = Depends(get_db)) -> list[ProductResponse]:
-    service = ProductService(db=db)
-    return await service.list_products()
+async def get_products(uow: UnitOfWork = Depends(get_uow)) -> list[ProductResponse]:
+    return await product_service.list_products(uow=uow)
 
 
 @router.post('/', response_model=ProductResponse, dependencies=[Depends(get_current_auth_user)])
 async def create_product(product: ProductCreate,
-                         db: AsyncSession = Depends(get_db)) -> ProductResponse:
-    service = ProductService(db=db)
-    return await service.create_product(product_create=product)
+                         uow: UnitOfWork = Depends(get_uow)) -> ProductResponse:
+    return await product_service.create_product(uow=uow, product_create=product)
 
 
 @router.get('/{product_id}', response_model=ProductResponse)
 async def get_product(product_id: str,
-                      db: AsyncSession = Depends(get_db)) -> ProductResponse:
-    service = ProductService(db=db)
-    return await service.get_product(product_id=product_id)
+                      uow: UnitOfWork = Depends(get_uow)) -> ProductResponse:
+    return await product_service.get_product(uow=uow, product_id=product_id)
 
 
 @router.delete('/{product_id}', status_code=204, dependencies=[Depends(get_current_auth_user)])
 async def delete_product(product_id: str,
-                         db: AsyncSession = Depends(get_db)) -> None:
-    service = ProductService(db=db)
-    return await service.delete_product(product_id=product_id)
+                         uow: UnitOfWork = Depends(get_uow)) -> None:
+    return await product_service.delete_product(uow=uow, product_id=product_id)

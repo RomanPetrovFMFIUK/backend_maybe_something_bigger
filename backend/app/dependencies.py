@@ -4,6 +4,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.app.data_base import get_db
+from backend.app.repositories import UnitOfWork
 from backend.app.schemas import UserResponse
 from backend.app.auth import decode_jwt
 from backend.app.services import UserService
@@ -26,3 +27,7 @@ async def get_current_auth_user(
         raise HTTPException(status_code=404,
                             detail='Пользователь не найден')
     return user
+
+async def get_uow(db: AsyncSession = Depends(get_db)) -> UnitOfWork:
+    return UnitOfWork(session=db)
+

@@ -1,9 +1,11 @@
 __all__ = (
     'ProductRepository',
     'UserRepository',
-    'CatalogueRepository'
+    'CatalogueRepository',
+    'UnitOfWork'
 )
 
-from .product import ProductRepository
-from .user import UserRepository
-from .catalogue import CatalogueRepository
+from backend.app.repositories.product import ProductRepository
+from backend.app.repositories.user import UserRepository
+from backend.app.repositories.catalogue import CatalogueRepository
+from backend.app.repositories.unit_of_work import UnitOfWork

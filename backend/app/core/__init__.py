@@ -3,4 +3,4 @@ __all__ = (
     "Settings",
 )
 
-from .config import Settings, get_settings
+from backend.app.core.config import Settings, get_settings

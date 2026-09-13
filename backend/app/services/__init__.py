@@ -4,6 +4,6 @@ __all__ = (
     'CatalogueService'
 )
 
-from .product import ProductService
-from .user import UserService
-from .catalogue import CatalogueService
+from backend.app.services.product import ProductService
+from backend.app.services.user import UserService
+from backend.app.services.catalogue import CatalogueService

@@ -3,4 +3,4 @@ __all__ = (
     "get_db",
 )
 
-from .session import engine, get_db
+from backend.app.data_base.session import engine, get_db

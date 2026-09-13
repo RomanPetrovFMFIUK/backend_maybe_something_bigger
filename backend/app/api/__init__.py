@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
-from .users import router as user_router
-from .products import router as product_router
-from .catalogues import router as catalogues_router
+from backend.app.api.users import router as user_router
+from backend.app.api.products import router as product_router
+from backend.app.api.catalogues import router as catalogues_router
 
 router = APIRouter()
 router.include_router(user_router)

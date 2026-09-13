@@ -1,4 +1,4 @@
-import tg_app.keyboards as kb
+import backend.app.tg_app.keyboards as kb
 
 from aiogram import F, Router
 from aiogram.filters import CommandStart, Command
