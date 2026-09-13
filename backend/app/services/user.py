@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from backend.app.schemas import UserCreate, UserResponse, TokenInfo
 from backend.app.auth import hash_password, validate_password, encode_jwt
-from repositories import UnitOfWork
+from backend.app.repositories import UnitOfWork
 
 
 class UserService:

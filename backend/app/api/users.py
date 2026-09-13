@@ -5,8 +5,8 @@ from backend.app.schemas import (UserCreate,
                                  TokenInfo)
 from backend.app.services import UserService
 from backend.app.dependencies import get_current_auth_user
-from dependencies import get_uow
-from repositories import UnitOfWork
+from backend.app.dependencies import get_uow
+from backend.app.repositories import UnitOfWork
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
