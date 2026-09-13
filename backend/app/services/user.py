@@ -19,6 +19,8 @@ class UserService:
             new_user = await uow.users.register_user(username=user_register.name,
                                                      password=hashed_password,
                                                      email=user_register.email)
+            await uow.commit()
+            await uow.session.refresh(new_user)
             return UserResponse.model_validate(new_user)
 
     async def get_user(self, uow: UnitOfWork, user_id: str) -> UserResponse:
@@ -41,6 +43,8 @@ class UserService:
             if not user:
                 raise HTTPException(status_code=404, detail="Пользователь не найден")
             await uow.users.delete(user)
+            await uow.commit()
+
 
     async def authenticate_user(self,
                                 uow: UnitOfWork,

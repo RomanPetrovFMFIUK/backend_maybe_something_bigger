@@ -12,22 +12,22 @@ from backend.app.services import UserService
 http_bearer = HTTPBearer()
 
 
+async def get_uow(db: AsyncSession = Depends(get_db)) -> UnitOfWork:
+    return UnitOfWork(session=db)
+
+
 async def get_current_auth_user(
         token: HTTPAuthorizationCredentials = Depends(http_bearer),
-        db: AsyncSession = Depends(get_db)
+        uow: UnitOfWork = Depends(get_uow)
 ) -> UserResponse:
     try:
         decoded_token = decode_jwt(token.credentials)
     except:
         raise HTTPException(status_code=401)
     email = decoded_token['email']
-    user_service = UserService(db=db)
-    user = await user_service.get_user_by_email(email=email)
+    user_service = UserService()
+    user = await user_service.get_user_by_email(uow=uow, email=email)
     if not user:
         raise HTTPException(status_code=404,
                             detail='Пользователь не найден')
     return user
-
-async def get_uow(db: AsyncSession = Depends(get_db)) -> UnitOfWork:
-    return UnitOfWork(session=db)
-
