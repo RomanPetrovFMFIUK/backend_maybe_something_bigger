@@ -21,6 +21,8 @@ class Settings(BaseSettings):
         "env_file_encoding": "utf-8",
     }
 
+    telegram_bot_token: str
+
     auth_jwt: AuthJWT = AuthJWT()
 
 
