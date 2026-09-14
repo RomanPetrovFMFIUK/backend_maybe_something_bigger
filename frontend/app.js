@@ -75,8 +75,10 @@ function logout() {
 
 // User elements
 const userNameInput = document.getElementById('new-user-name');
+const userSurnameInput = document.getElementById('new-user-surname');
 const userEmailInput = document.getElementById('new-user-email');
 const userPasswordInput = document.getElementById('new-user-password');
+const userAgeInput = document.getElementById('new-user-age');
 const addUserBtn = document.getElementById('add-user-btn');
 const userList = document.getElementById('user-list');
 const userCount = document.getElementById('user-count');
@@ -183,10 +185,10 @@ function renderUsers(users) {
         card.className = 'user-card';
         card.style.animationDelay = `${i * 0.05}s`;
         card.innerHTML = `
-            <div class="avatar" style="background: ${getColor(user.id)}">${getInitials(user.name)}</div>
+            <div class="avatar" style="background: ${getColor(user.id)}">${getInitials(user.full_name)}</div>
             <div class="user-info">
-                <div class="user-name">${escapeHtml(user.name)}</div>
-                <div class="user-id">ID: ${user.id}</div>
+                <div class="user-name">${escapeHtml(user.full_name)}</div>
+                <div class="user-id">ID: ${user.id} | Возраст: ${user.age}</div>
             </div>
             <button class="btn-delete" title="Удалить" data-type="user" data-id="${user.id}">✕</button>
         `;
@@ -194,7 +196,7 @@ function renderUsers(users) {
 
         const option = document.createElement('option');
         option.value = user.id;
-        option.textContent = user.name;
+        option.textContent = user.full_name;
         userSelect.appendChild(option);
     });
 }
@@ -319,21 +321,23 @@ async function fetchUsers() {
     }
 }
 
-async function addUser(name, email, password) {
+async function addUser(name, surname, email, password, age) {
     addUserBtn.disabled = true;
     try {
         const res = await apiFetch(`${USERS_API_URL}register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, password }),
+            body: JSON.stringify({ name, surname, email, password, age: parseInt(age, 10) }),
         });
 
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         userNameInput.value = '';
+        userSurnameInput.value = '';
         userEmailInput.value = '';
         userPasswordInput.value = '';
-        showToast(`${name} успешно зарегистрирован!`);
+        userAgeInput.value = '';
+        showToast(`${name} ${surname} успешно зарегистрирован!`);
         await fetchUsers();
     } catch (e) {
         showToast(`Ошибка: ${e.message}`, 'error');
@@ -488,13 +492,15 @@ updateAuthUI();
 // ── Обработчики Пользователи ──
 addUserBtn.addEventListener('click', () => {
     const name = userNameInput.value.trim();
+    const surname = userSurnameInput.value.trim();
     const email = userEmailInput.value.trim();
     const password = userPasswordInput.value.trim();
-    if (!name || !email || !password) return showToast('Заполните все поля (имя, email, пароль)', 'error');
-    addUser(name, email, password);
+    const age = userAgeInput.value.trim();
+    if (!name || !surname || !email || !password || !age) return showToast('Заполните все поля (имя, фамилия, email, пароль, возраст)', 'error');
+    addUser(name, surname, email, password, age);
 });
 
-[userNameInput, userEmailInput, userPasswordInput].forEach(input => {
+[userNameInput, userSurnameInput, userEmailInput, userPasswordInput, userAgeInput].forEach(input => {
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') addUserBtn.click();
     });
