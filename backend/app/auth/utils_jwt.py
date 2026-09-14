@@ -11,10 +11,12 @@ settings = get_settings()
 
 def encode_jwt(
         payload: dict,
-        private_key: str = settings.auth_jwt.private_key_path.read_text(),
+        private_key: str | None = None,
         algorithm: str = settings.auth_jwt.algorithm,
         expire_minutes: int = 15
 ):
+    if private_key is None:
+        private_key = settings.auth_jwt.private_key_path.read_text()
     time_now = datetime.now(timezone.utc)
     to_encode = payload.copy()
     expire = time_now + timedelta(minutes=expire_minutes)
@@ -30,9 +32,11 @@ def encode_jwt(
 
 def decode_jwt(
         token: str | bytes,
-        public_key: str = settings.auth_jwt.public_key_path.read_text(),
+        public_key: str | None = None,
         algorithm: str = settings.auth_jwt.algorithm
 ):
+    if public_key is None:
+        public_key = settings.auth_jwt.public_key_path.read_text()
     decoded = jwt.decode(token,
                          public_key,
                          algorithms=[algorithm])

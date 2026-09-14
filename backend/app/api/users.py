@@ -33,7 +33,7 @@ async def get_user(
     return await user_service.get_user(uow=uow, user_id=user_id)
 
 
-@router.delete("/{user_id}", status_code=204)
+@router.delete("/{user_id}", status_code=204, dependencies=[Depends(get_current_auth_user)])
 async def delete_user(
         user_id: str,
         uow: UnitOfWork = Depends(get_uow),

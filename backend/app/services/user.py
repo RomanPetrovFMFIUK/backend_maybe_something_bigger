@@ -16,9 +16,12 @@ class UserService:
             if existing_user:
                 raise HTTPException(status_code=409, detail='Пользователь уже существует')
             hashed_password = hash_password(user_register.password)
-            new_user = await uow.users.register_user(username=user_register.name,
+            new_user = await uow.users.register_user(name=user_register.name,
+                                                     surname=user_register.surname,
                                                      password=hashed_password,
-                                                     email=user_register.email)
+                                                     email=user_register.email,
+                                                     age=user_register.age,
+                                                     full_name=user_register.full_name)
             await uow.commit()
             await uow.session.refresh(new_user)
             return UserResponse.model_validate(new_user)

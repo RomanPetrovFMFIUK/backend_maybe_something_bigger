@@ -1,3 +1,5 @@
+import jwt
+
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
@@ -22,7 +24,7 @@ async def get_current_auth_user(
 ) -> UserResponse:
     try:
         decoded_token = decode_jwt(token.credentials)
-    except:
+    except jwt.PyJWTError:
         raise HTTPException(status_code=401)
     email = decoded_token['email']
     user_service = UserService()

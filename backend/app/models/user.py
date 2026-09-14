@@ -1,3 +1,4 @@
+from encodings import unicode_escape
 from uuid import uuid4
 
 from backend.app.models import Base
@@ -13,9 +14,12 @@ if TYPE_CHECKING:
 
 
 class User(Base):
-    name: Mapped[str] = mapped_column(unique=True, nullable=False)
+    name: Mapped[str] = mapped_column(nullable=False)
     products: Mapped[list["Product"]] = relationship(back_populates='user',
                                                      cascade='all, delete-orphan',
                                                      passive_deletes=True)
     password: Mapped[str] = mapped_column(nullable=False, default=lambda: str(uuid4()))
     email: Mapped[str] = mapped_column(unique=True)
+    surname: Mapped[str] = mapped_column(nullable=False)
+    full_name: Mapped[str] = mapped_column(unique=True)
+    age: Mapped[int] = mapped_column(nullable=False)

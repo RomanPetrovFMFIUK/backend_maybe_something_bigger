@@ -16,11 +16,6 @@ class UserRepository:
     async def get_by_id(self, user_id: str) -> User | None:
         return await self.db.get(User, user_id)
 
-    async def create(self, name: str) -> User:
-        new_user = User(name=name)
-        self.db.add(new_user)
-        return new_user
-
     async def delete(self, user: User) -> None:
         await self.db.delete(user)
 
@@ -30,13 +25,19 @@ class UserRepository:
 
 
     async def register_user(self,
-                            username: str,
+                            name: str,
+                            surname: str,
                             password: str,
-                            email: str) -> User:
+                            email: str,
+                            age: int,
+                            full_name: str) -> User:
 
-        reg_user = User(name=username,
+        reg_user = User(name=name,
+                        surname=surname,
                         password=password,
-                        email=email)
+                        email=email,
+                        age=age,
+                        full_name=full_name)
         self.db.add(reg_user)
         return reg_user
 
