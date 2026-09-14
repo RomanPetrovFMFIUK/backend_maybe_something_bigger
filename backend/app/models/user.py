@@ -23,3 +23,4 @@ class User(Base):
     surname: Mapped[str] = mapped_column(nullable=False)
     full_name: Mapped[str] = mapped_column(unique=True)
     age: Mapped[int] = mapped_column(nullable=False)
+    admin: Mapped[bool] = mapped_column(nullable=False, default=False, server_default='false')

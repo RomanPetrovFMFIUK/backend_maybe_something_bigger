@@ -8,6 +8,7 @@ class UserResponse(BaseModel):
     full_name: str
     id: str
     age: int
+    admin: bool
 
 class UserCreate(BaseModel):
     name: str
