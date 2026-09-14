@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from backend.app.schemas import UserCreate, UserResponse, TokenInfo
 from backend.app.auth import hash_password, validate_password, encode_jwt
 from backend.app.repositories import UnitOfWork
+from dependencies import get_current_auth_user
 
 
 class UserService:
@@ -40,12 +41,14 @@ class UserService:
                 raise HTTPException(status_code=404, detail='Пользователь не найден')
             return UserResponse.model_validate(user)
 
-    async def delete_user(self,uow: UnitOfWork, user_id: str) -> None:
+    async def delete_user(self,uow: UnitOfWork, user_id: str, current_user: UserResponse) -> None:
         async with uow:
-            user = await uow.users.get_by_id(user_id=user_id)
-            if not user:
+            target_user = await uow.users.get_by_id(user_id=user_id)
+            if not target_user:
                 raise HTTPException(status_code=404, detail="Пользователь не найден")
-            await uow.users.delete(user)
+            if current_user.id == target_user.id:
+                raise HTTPException(status_code=403, detail='Вы не можете удалить сами себя')
+            await uow.users.delete(target_user)
             await uow.commit()
 
 

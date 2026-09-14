@@ -37,8 +37,9 @@ async def get_user(
 async def delete_user(
         user_id: str,
         uow: UnitOfWork = Depends(get_uow),
+        current_user: UserResponse = Depends(get_current_auth_user)
 ) -> None:
-    return await user_service.delete_user(uow=uow, user_id=user_id)
+    return await user_service.delete_user(uow=uow, user_id=user_id, current_user=current_user)
 
 
 @router.post('/register')
