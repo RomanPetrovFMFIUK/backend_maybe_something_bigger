@@ -25,6 +25,8 @@ class Settings(BaseSettings):
 
     auth_jwt: AuthJWT = AuthJWT()
 
+    owner_id: int = 1101779478
+
 
 @lru_cache
 def get_settings() -> Settings:
