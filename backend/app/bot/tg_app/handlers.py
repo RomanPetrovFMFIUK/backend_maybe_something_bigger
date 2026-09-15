@@ -1,6 +1,6 @@
-import backend.app.tg_app.keyboards as kb
+import backend.app.bot.tg_app.keyboards as kb
 
-from aiogram import F, Router
+from aiogram import Router
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message
 

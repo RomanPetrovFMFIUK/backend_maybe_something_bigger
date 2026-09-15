@@ -1,4 +1,8 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+from aiogram.types import (ReplyKeyboardMarkup,
+                           KeyboardButton,
+                           InlineKeyboardMarkup,
+                           InlineKeyboardButton,
+                           WebAppInfo)
 
 main = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='Каталог'),

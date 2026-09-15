@@ -8,24 +8,15 @@
 from aiogram import Dispatcher, Bot
 
 from backend.app.bot.tg_app.handlers import router
-from backend.app.bot.config import TOKEN
+from backend.app.core import get_settings
 
-import logging
-import asyncio
 
-bot = Bot(token=TOKEN)
+settings = get_settings()
+
+bot = Bot(token=settings.telegram_bot_token)
 
 dp = Dispatcher()
+dp.include_router(router)
 
-
-async def main():
-    dp.include_router(router)
+async def start_bot():
     await dp.start_polling(bot)
-
-
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        print('Exit')
