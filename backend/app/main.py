@@ -1,3 +1,4 @@
+import asyncio
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -7,13 +8,17 @@ from backend.app.api import router
 from backend.app.core import get_settings
 from backend.app.data_base import engine
 from backend.app.models import Base
+from backend.app.bot.bot import bot, start_bot
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     async with engine.begin() as connection:
         await connection.run_sync(Base.metadata.create_all)
+    polling_task = asyncio.create_task(start_bot())
     yield
+    polling_task.cancel()
+    await bot.session.close()
     await engine.dispose()
 
 
