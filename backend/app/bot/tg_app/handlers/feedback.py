@@ -39,7 +39,7 @@ async def forward_to_owner(message: Message, state: FSMContext):
     )
 
     await message.answer(
-        '✅ Ваше сообщение отправлено!\n'
+        'Ваше сообщение отправлено!\n'
         'Администратор скоро ответит вам.'
     )
     await state.clear()
@@ -53,12 +53,12 @@ async def reply_to_user(message: Message):
 
     match = re.search(r'ID:\s*(\d+)', original_text)
     if not match:
-        await message.reply('❌ Не смог найти ID пользователя в сообщении')
+        await message.reply('Не смог найти ID пользователя в сообщении')
         return
 
     user_id = int(match.group(1))
     await message.bot.send_message(
         chat_id=user_id,
-        text=f'📩 Ответ от Администратора:\n\n{message.text}',
+        text=f'Ответ от Администратора:\n\n{message.text}',
     )
-    await message.reply('✅ Ответ успешно доставлен')
+    await message.reply('Ответ успешно доставлен')
