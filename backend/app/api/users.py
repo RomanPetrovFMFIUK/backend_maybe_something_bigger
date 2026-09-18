@@ -14,7 +14,8 @@ router = APIRouter(prefix="/users", tags=["Users"])
 user_service = UserService()
 telegram_service = TelegramService(bot=BOT)
 
-@router.get("/", response_model=list[UserResponse])
+@router.get("/", response_model=list[UserResponse], dependencies=[Depends(get_current_auth_user),
+                                                                  ])
 async def get_users(uow: UnitOfWork = Depends(get_uow)) -> list[UserResponse]:
     return await user_service.list_users(uow=uow)
 
