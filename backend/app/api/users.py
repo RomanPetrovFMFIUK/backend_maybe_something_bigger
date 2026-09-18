@@ -3,15 +3,16 @@ from backend.app.schemas import (UserCreate,
                                  UserResponse,
                                  UserLogin,
                                  TokenInfo)
-from backend.app.services import UserService
+from backend.app.services import UserService, TelegramService
 from backend.app.dependencies import get_current_auth_user
 from backend.app.dependencies import get_uow
 from backend.app.repositories import UnitOfWork
+from backend.app.bot.bot import BOT
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
 user_service = UserService()
-
+telegram_service = TelegramService(bot=BOT)
 
 @router.get("/", response_model=list[UserResponse])
 async def get_users(uow: UnitOfWork = Depends(get_uow)) -> list[UserResponse]:
@@ -42,12 +43,15 @@ async def delete_user(
     return await user_service.delete_user(uow=uow, user_id=user_id, current_user=current_user)
 
 
-@router.post('/register')
+@router.post('/register', response_model=UserResponse)
 async def register_user(
         user: UserCreate,
         uow: UnitOfWork = Depends(get_uow)
 ) -> UserResponse:
     reg_user = await user_service.register_user(uow=uow, user_register=user)
+    await telegram_service.send_message_about_new_user(
+        user=reg_user
+    )
     return reg_user
 
 

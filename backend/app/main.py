@@ -8,7 +8,7 @@ from backend.app.api import router
 from backend.app.core import get_settings
 from backend.app.data_base import engine
 from backend.app.models import Base
-from backend.app.bot.bot import bot, start_bot
+from backend.app.bot.bot import BOT, start_bot
 
 
 @asynccontextmanager

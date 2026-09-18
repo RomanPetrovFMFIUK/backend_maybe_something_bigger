@@ -13,10 +13,10 @@ from backend.app.core import get_settings
 
 settings = get_settings()
 
-bot = Bot(token=settings.telegram_bot_token)
+BOT = Bot(token=settings.telegram_bot_token)
 
 dp = Dispatcher()
 dp.include_router(router)
 
 async def start_bot():
-    await dp.start_polling(bot)
+    await dp.start_polling(BOT)
