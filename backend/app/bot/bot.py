@@ -7,7 +7,7 @@
 
 from aiogram import Dispatcher, Bot
 
-from backend.app.bot.tg_app.handlers import router
+from backend.app.bot.tg_app.handlers import router  # агрегированный роутер из handlers/__init__.py
 from backend.app.core import get_settings
 
 
