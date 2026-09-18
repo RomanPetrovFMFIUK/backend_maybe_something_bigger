@@ -1,6 +1,10 @@
 from typing import Any, Self
 
-from pydantic import BaseModel, ConfigDict, EmailStr, field_validator, computed_field
+from pydantic import (BaseModel,
+                      ConfigDict,
+                      EmailStr,
+                      field_validator,
+                      computed_field)
 
 
 class UserResponse(BaseModel):

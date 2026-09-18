@@ -1,3 +1,4 @@
+import os
 from functools import lru_cache
 from pathlib import Path
 
@@ -21,7 +22,7 @@ class Settings(BaseSettings):
         "env_file_encoding": "utf-8",
     }
 
-    telegram_bot_token: str
+    telegram_bot_token: str = os.getenv("TELEGRAM_BOT_TOKEN", "")
 
     auth_jwt: AuthJWT = AuthJWT()
 
