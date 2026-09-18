@@ -21,6 +21,7 @@ class UnitOfWork:
                         exc_tb: TracebackType | None):
         if exc_type is not None:
             await self.session.rollback()
+            await self.session.close()
 
     async def commit(self):
         await self.session.commit()
