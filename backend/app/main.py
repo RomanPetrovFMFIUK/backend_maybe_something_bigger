@@ -18,7 +18,7 @@ async def lifespan(app: FastAPI):
     polling_task = asyncio.create_task(start_bot())
     yield
     polling_task.cancel()
-    await bot.session.close()
+    await BOT.session.close()
     await engine.dispose()
 
 
