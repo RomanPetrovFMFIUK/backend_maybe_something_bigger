@@ -3,7 +3,8 @@ from backend.app.schemas import (UserCreate,
                                  UserResponse,
                                  UserLogin,
                                  TokenInfo)
-from backend.app.services import UserService, TelegramService
+from backend.app.services import (UserService,
+                                  TelegramService)
 from backend.app.dependencies import get_current_auth_user
 from backend.app.dependencies import get_uow
 from backend.app.repositories import UnitOfWork

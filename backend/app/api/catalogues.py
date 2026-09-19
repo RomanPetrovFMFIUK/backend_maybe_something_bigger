@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends
 
-from backend.app.schemas import CatalogueResponse, CatalogueCreate, ProductResponse
+from backend.app.schemas import (CatalogueResponse,
+                                 CatalogueCreate,
+                                 ProductResponse)
+
 from backend.app.services import CatalogueService, ProductService
 from backend.app.dependencies import get_uow, get_current_auth_user
 from backend.app.repositories.unit_of_work import UnitOfWork
@@ -38,7 +41,8 @@ async def get_products_by_catalogue(catalogue_id: str, uow: UnitOfWork = Depends
     return await catalogue_service.list_products_by_catalogue_id(uow=uow, catalogue_id=catalogue_id)
 
 
-@router.post('/{catalogue_id}/products/{product_id}', response_model=ProductResponse, dependencies=[Depends(get_current_auth_user)])
+@router.post('/{catalogue_id}/products/{product_id}', response_model=ProductResponse,
+             dependencies=[Depends(get_current_auth_user)])
 async def add_product_from_catalogue(catalogue_id: str, product_id: str,
                                      uow: UnitOfWork = Depends(get_uow)) -> ProductResponse:
 
