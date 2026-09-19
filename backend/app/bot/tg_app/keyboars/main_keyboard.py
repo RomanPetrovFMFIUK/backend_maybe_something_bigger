@@ -1,7 +1,5 @@
 from aiogram.types import (ReplyKeyboardMarkup,
                            KeyboardButton,
-                           InlineKeyboardMarkup,
-                           InlineKeyboardButton,
                            )
 
 main = ReplyKeyboardMarkup(keyboard=[
@@ -11,10 +9,4 @@ main = ReplyKeyboardMarkup(keyboard=[
 ],
     resize_keyboard=True,
     input_field_placeholder='Выберите пункт меню')
-
-
-settings = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='Наш сайт: ',
-                          url='https://svit-line.com.ua/ua/index.html')]
-])
 
