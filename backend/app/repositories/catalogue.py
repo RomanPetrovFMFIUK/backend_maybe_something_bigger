@@ -1,5 +1,4 @@
 from sqlalchemy import select, insert, delete
-from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.app.models import Catalogue, Product, product_catalogue_assoc
@@ -10,12 +9,12 @@ class CatalogueRepository:
         self.db = db
 
     async def get_all_catalogues(self) -> list[Catalogue]:
-        stmt = select(Catalogue).options(selectinload(Catalogue.products))
+        stmt = select(Catalogue)
         catalogues = await self.db.scalars(stmt)
         return list(catalogues.all())
 
     async def get_catalogue(self, catalogue_id: str) -> Catalogue | None:
-        stmt = select(Catalogue).options(selectinload(Catalogue.products)).where(Catalogue.id == catalogue_id)
+        stmt = select(Catalogue).where(Catalogue.id == catalogue_id)
         catalogue = await self.db.scalar(stmt)
         return catalogue
 
