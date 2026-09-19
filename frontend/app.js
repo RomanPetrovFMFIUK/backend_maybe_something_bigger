@@ -35,7 +35,7 @@ async function apiFetch(url, options = {}) {
     }
     const res = await fetch(url, options);
     if (res.status === 401) {
-        logout();
+        logout(true);
         throw new Error('Не авторизован (401). Пожалуйста, войдите.');
     }
     return res;
@@ -66,11 +66,13 @@ async function login(email, password) {
     }
 }
 
-function logout() {
+function logout(silent = false) {
     authToken = null;
     localStorage.removeItem('token');
     updateAuthUI();
-    showToast('Вы вышли из системы');
+    if (!silent) {
+        showToast('Вы вышли из системы');
+    }
 }
 
 // User elements
@@ -330,7 +332,12 @@ async function addUser(name, surname, email, password, age) {
             body: JSON.stringify({ name, surname, email, password, age: parseInt(age, 10) }),
         });
 
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) {
+            if (res.status === 409) {
+                throw new Error('Пользователь с таким Email уже существует. Пожалуйста, войдите в систему.');
+            }
+            throw new Error(`HTTP ${res.status}`);
+        }
 
         userNameInput.value = '';
         userSurnameInput.value = '';
