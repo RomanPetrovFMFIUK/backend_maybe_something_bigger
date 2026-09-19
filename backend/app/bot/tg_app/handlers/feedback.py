@@ -23,7 +23,7 @@ async def ask_for_message(message: Message, state: FSMContext):
 async def forward_to_owner(message: Message, state: FSMContext):
     if not message.text:
         await message.answer('Пожалуйста, отправьте текстовое сообщение')
-        return  # ← важно: без return код продолжал выполняться с None
+        return
 
     admin_text = (
         f'📬 У вас новое сообщение!\n'

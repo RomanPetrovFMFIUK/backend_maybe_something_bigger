@@ -2,7 +2,7 @@ from aiogram.types import (ReplyKeyboardMarkup,
                            KeyboardButton,
                            )
 
-main = ReplyKeyboardMarkup(keyboard=[
+main_kb = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='Каталог'),
      KeyboardButton(text='Связаться с Админом')],
     [KeyboardButton(text='Перейти на веб-страницу')]
