@@ -7,6 +7,8 @@ from aiogram.types import Message
 from backend.app.bot.tg_app.states import FeedbackState
 from backend.app.core import get_settings
 
+from backend.app.bot.tg_app.keyboards import feedback_kb_inline
+
 settings = get_settings()
 OWNER_ID = settings.owner_id
 
@@ -15,12 +17,19 @@ router = Router()
 
 @router.message(F.text == 'Связаться с Админом', F.from_user.id != OWNER_ID)
 async def ask_for_message(message: Message, state: FSMContext):
-    await message.reply('✍️ Введите ваше сообщение:')
+    await message.reply(text='Введите ваше сообщение:',
+                        reply_markup=feedback_kb_inline)
     await state.set_state(FeedbackState.waiting_for_message)
 
+@router.message(F.text == 'Выйти из диалога',
+                F.from_user.id != OWNER_ID,
+                FeedbackState.waiting_for_message,)
+async def exit_from_chat_with_owner(message: Message, state: FSMContext):
+    await message.answer(text='Вы успешно вышли из чата')
+    await state.clear()
 
 @router.message(FeedbackState.waiting_for_message)
-async def forward_to_owner(message: Message, state: FSMContext):
+async def forward_to_owner(message: Message):
     if not message.text:
         await message.answer('Пожалуйста, отправьте текстовое сообщение')
         return
@@ -42,7 +51,6 @@ async def forward_to_owner(message: Message, state: FSMContext):
         'Ваше сообщение отправлено!\n'
         'Администратор скоро ответит вам.'
     )
-    await state.clear()
 
 
 @router.message(F.from_user.id == OWNER_ID, F.reply_to_message)
@@ -62,3 +70,4 @@ async def reply_to_user(message: Message):
         text=f'Ответ от Администратора:\n\n{message.text}',
     )
     await message.reply('Ответ успешно доставлен')
+

@@ -26,6 +26,7 @@ async def cmd_help(message: Message):
         '/start — главное меню\n'
         '/help — эта справка\n'
         '/about_us - информация про нас\n'
+        '/catalogue - каталог наших товаров'
     )
 
 @router.message(Command('about_us'))
