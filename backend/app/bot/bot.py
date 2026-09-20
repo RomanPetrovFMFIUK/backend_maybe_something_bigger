@@ -1,13 +1,8 @@
-# Бот, который будет отправлять владельцу сайта уведомление о том, что зарегистрировался новый пользователь
-
-
-# Так же с помощью этого бота можно будет связаться с владельцем сайта (Я хочу добавить такую возможность для рядовых пользователей)
-
-# Займусь этим уже завтра
+import asyncio
 
 from aiogram import Dispatcher, Bot
 
-from backend.app.bot.tg_app.handlers import router  # агрегированный роутер из handlers/__init__.py
+from backend.app.bot.tg_app.handlers import router
 from backend.app.core import get_settings
 from backend.app.data_base import async_session_factory
 from backend.app.bot.tg_app.tg_database import DbSessionMiddleWare
@@ -20,5 +15,15 @@ dp = Dispatcher()
 dp.update.middleware(DbSessionMiddleWare(session_factory=async_session_factory))
 dp.include_router(router)
 
+
 async def start_bot():
-    await dp.start_polling(BOT)
+    retry_delay = 2
+    while True:
+        try:
+            await dp.start_polling(BOT, drop_pending_updates=True)
+            break
+        except asyncio.CancelledError:
+            raise
+        except Exception as e:
+            await asyncio.sleep(retry_delay)
+            retry_delay = min(retry_delay * 2, 60)

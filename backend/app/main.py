@@ -26,12 +26,12 @@ async def lifespan(app: FastAPI):
     polling_task = asyncio.create_task(start_bot())
     yield
     logger.info('Services shut down')
+    await BOT.session.close()
     polling_task.cancel()
     try:
         await polling_task
-    except:
+    except asyncio.CancelledError:
         logger.info('Polling task was canceled')
-    await BOT.session.close()
     await engine.dispose()
 
 
