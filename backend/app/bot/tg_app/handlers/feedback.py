@@ -35,10 +35,10 @@ async def forward_to_owner(message: Message):
         return
 
     admin_text = (
-        f'📬 У вас новое сообщение!\n'
+        f'У вас новое сообщение!\n'
         f'<b>От:</b> {message.from_user.full_name}\n'
         f'<b>ID:</b> {message.from_user.id}\n\n'
-        f'💬 {message.text}'
+        f'{message.text}'
     )
 
     await message.bot.send_message(
