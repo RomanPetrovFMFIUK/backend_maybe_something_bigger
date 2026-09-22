@@ -16,9 +16,14 @@ class CatalogueService:
             catalogues_orm = await uow.catalogues.get_all_catalogues()
             return [CatalogueResponse.model_validate(catalogue) for catalogue in catalogues_orm]
 
-    async def list_products_by_catalogue_id(self, uow: UnitOfWork, catalogue_id: str) -> list[ProductResponse]:
+    async def list_products_by_catalogue_id(self, uow: UnitOfWork,
+                                            catalogue_id: str,
+                                            limit: int,
+                                            offset: int) -> list[ProductResponse]:
         async with uow:
-            products_orm = await uow.catalogues.get_products_by_catalogue_id(catalogue_id=catalogue_id)
+            products_orm = await uow.catalogues.get_products_by_catalogue_id(catalogue_id=catalogue_id,
+                                                                             limit=limit,
+                                                                             offset=offset)
             return [ProductResponse.model_validate(product) for product in products_orm]
 
     async def list_products_by_catalogue_name(self, uow: UnitOfWork, catalogue_name: str) -> list[ProductResponse]:

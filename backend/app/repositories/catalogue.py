@@ -18,11 +18,13 @@ class CatalogueRepository:
         catalogue = await self.db.scalar(stmt)
         return catalogue
 
-    async def get_products_by_catalogue_id(self, catalogue_id: str) -> list[Product]:
+    async def get_products_by_catalogue_id(self,
+                                           catalogue_id: str,
+                                           limit: int, offset: int) -> list[Product]:
         stmt = (
             select(Product)
             .join(Product.catalogues)
-            .where(Catalogue.id == catalogue_id)
+            .where(Catalogue.id == catalogue_id).limit(limit).offset(offset)
         )
         products = await self.db.scalars(stmt)
         return list(products.all())
