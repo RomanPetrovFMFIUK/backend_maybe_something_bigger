@@ -2,7 +2,7 @@ import uuid
 
 from backend.app.models import (Catalogue,
                                 Product)
-from backend.tests.fakes.fake_repos import FakeProductRepository
+from backend.tests.fakes.fake_repos.fake_product_repo import FakeProductRepository
 
 
 class FakeCatalogueRepository:
