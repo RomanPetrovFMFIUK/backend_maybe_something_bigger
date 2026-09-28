@@ -33,13 +33,15 @@ class FakeUserRepository:
                             password: str,
                             email: str,
                             age: int,
-                            full_name: str) -> User:
+                            full_name: str,
+                            is_admin: bool = False) -> User:
         reg_user = User(name=name,
                         surname=surname,
                         password=password,
                         email=email,
                         age=age,
-                        full_name=full_name)
+                        full_name=full_name,
+                        admin=is_admin)
         if getattr(reg_user, "id", None) is None:
             reg_user.id = str(uuid.uuid4())
 
