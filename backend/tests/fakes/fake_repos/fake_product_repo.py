@@ -10,7 +10,7 @@ class FakeProductRepository:
             for product in initial_products:
                 if not product.id:
                     product.id = str(uuid.uuid4())
-                self._storage[product.id] = product
+                self._storage[str(product.id)] = product
 
     async def get_all(self) -> list[Product]:
         return list(self._storage.values())
