@@ -1,16 +1,9 @@
 from types import TracebackType
 
+from .fake_user_repository import FakeUserRepository
+from .fake_product_repo import FakeProductRepository
+from .fake_catalogue_repo import FakeCatalogueRepository
 
-class FakeUserRepository:
-    pass
-
-
-class FakeProductRepository:
-    pass
-
-
-class FakeCatalogueRepository:
-    pass
 
 
 class FakeUnitOfWork:

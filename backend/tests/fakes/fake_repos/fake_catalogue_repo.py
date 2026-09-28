@@ -1,0 +1,2 @@
+class FakeCatalogueRepository:
+    pass
