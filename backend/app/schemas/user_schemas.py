@@ -28,6 +28,7 @@ class UserCreate(BaseModel):
     @computed_field
     def full_name(self) -> str:
         return f'{self.name} {self.surname}'
+    admin: bool = False
 
 class UserLogin(BaseModel):
     email: str
