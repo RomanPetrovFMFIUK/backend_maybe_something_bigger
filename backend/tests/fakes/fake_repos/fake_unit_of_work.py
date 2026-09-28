@@ -4,7 +4,9 @@ from .fake_user_repository import FakeUserRepository
 from .fake_product_repo import FakeProductRepository
 from .fake_catalogue_repo import FakeCatalogueRepository
 
-
+class FakeSession:
+    async def refresh(self, obj):
+        pass
 
 class FakeUnitOfWork:
     def __init__(self):
@@ -13,6 +15,7 @@ class FakeUnitOfWork:
         self.catalogues = FakeCatalogueRepository()
         self.committed = False
         self.rolled_back = False
+        self.session = FakeSession()
 
     async def __aenter__(self):
         return self
