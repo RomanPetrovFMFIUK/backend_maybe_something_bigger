@@ -24,6 +24,9 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
 
+from backend.app.core import get_settings
+config.set_main_option("sqlalchemy.url", get_settings().DB_URL)
+
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
