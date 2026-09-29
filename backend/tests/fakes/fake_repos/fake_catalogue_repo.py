@@ -25,8 +25,8 @@ class FakeCatalogueRepository:
 
     async def get_products_by_catalogue_id(self,
                                            catalogue_id: str,
-                                           limit: int,
-                                           offset: int) -> list[Product]:
+                                           limit: int = 15,
+                                           offset: int = 0) -> list[Product]:
         catalogue = await self.get_catalogue(catalogue_id)
         if not catalogue or not catalogue.products:
             return []
