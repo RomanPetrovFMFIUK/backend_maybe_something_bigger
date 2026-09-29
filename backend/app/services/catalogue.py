@@ -18,8 +18,8 @@ class CatalogueService:
 
     async def list_products_by_catalogue_id(self, uow: UnitOfWork,
                                             catalogue_id: str,
-                                            limit: int,
-                                            offset: int) -> list[ProductResponse]:
+                                            limit: int = 15,
+                                            offset: int = 0) -> list[ProductResponse]:
         async with uow:
             products_orm = await uow.catalogues.get_products_by_catalogue_id(catalogue_id=catalogue_id,
                                                                              limit=limit,
