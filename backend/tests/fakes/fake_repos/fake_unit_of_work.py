@@ -12,7 +12,7 @@ class FakeUnitOfWork:
     def __init__(self):
         self.users = FakeUserRepository()
         self.products = FakeProductRepository()
-        self.catalogues = FakeCatalogueRepository()
+        self.catalogues = FakeCatalogueRepository(product_repo=self.products)
         self.committed = False
         self.rolled_back = False
         self.session = FakeSession()
